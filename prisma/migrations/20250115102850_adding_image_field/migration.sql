@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "image" TEXT,
+ALTER COLUMN "googleId" DROP NOT NULL,
+ALTER COLUMN "githubId" DROP NOT NULL;
