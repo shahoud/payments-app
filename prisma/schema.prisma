@@ -23,10 +23,15 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
-  payments Payment[]
+
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  // Foreign Key for One-to-One Relation
+  userSettings    UserSettings? 
+
+  // One-to-Many Relation (User can have multiple payments)
+  payments        Payment[]
 }
  
 model Account {
@@ -86,8 +91,6 @@ model Authenticator {
 
 model Payment {
   id          String   @id @default(uuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   amount      Float
   reason      String
   paidAt      DateTime
@@ -95,5 +98,43 @@ model Payment {
   longitude   Float?   // Nullable field for longitude
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  //User Reference
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  //Category Reference
+  categoryId String
+  catgeory    PaymentCategory @relation(fields: [categoryId], references: [id])
+  //Currency Reference
+  currencyId String
+  currency Currency @relation(fields: [currencyId], references: [id])
 }
 
+
+//Currency Model
+model Currency {
+  id String @id @default(cuid())
+  code String @unique // Example: "USD", "EUR", "GBP"
+  name String //Example: "United States Dollar"
+  symbol String //Example "$"
+  //Relations
+  payments Payment[]
+  userSettings UserSettings[]
+}
+
+//PaymentCategory Model
+model PaymentCategory{
+  id String @id @default(cuid())
+  name String @unique // Example: "Groceries", "Rent", "Healthcare"
+  //Relations
+  payments Payment[]
+  userSettings UserSettings[]
+}
+
+//UserSettings Model
+model UserSettings{
+  id String @id @default(cuid())
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
+  selectedCurrencies  Currency[]        
+  selectedCategories  PaymentCategory[] 
+}
