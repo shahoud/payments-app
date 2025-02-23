@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,10 +14,7 @@ import { paymentZodSchema } from "@/lib/z/z-payment-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  createPayment1,
-  updatePayment,
-} from "@/lib/db/payment-db/crud-payment";
+import { createPayment, updatePayment } from "@/lib/db/payment-db/crud-payment";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PaymentFormDataType } from "@/types/paymentForm.types";
@@ -32,6 +30,15 @@ import {
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useMemo } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Link from "next/link";
+import SelectFormField from "@/components/reusable/SelectFormField";
 
 interface PaymentFormProps {
   id?: string;
@@ -58,7 +65,19 @@ const PaymentForm = ({ id, payment }: PaymentFormProps) => {
   const isEditMode = !!payment;
   const router = useRouter();
   const { toast } = useToast();
+  const categories = [
+    { id: "1", name: "Groceries" },
+    { id: "2", name: "Rent" },
+    { id: "3", name: "Vegitables" },
+    { id: "4", name: "Fruits" },
+  ];
 
+  const currencies = [
+    { id: "1", name: "USD" },
+    { id: "2", name: "DER" },
+    { id: "3", name: "SYP" },
+    { id: "4", name: "EUR" },
+  ];
   // Default values for the form
   const defaultValues: z.infer<typeof paymentZodSchema> = {
     amount: payment?.amount || 0,
@@ -66,6 +85,8 @@ const PaymentForm = ({ id, payment }: PaymentFormProps) => {
     paidAt: payment?.paidAt ? new Date(payment.paidAt) : new Date(),
     latitude: payment?.latitude ?? 0,
     longitude: payment?.longitude ?? 0,
+    categoryId: payment?.categoryId || "cm7hm5itt0004ey54twvm8adi",
+    currencyId: payment?.currencyId || "cm7hm5iti0000ey5444qlqqye",
   };
 
   // Initialize the form
@@ -90,7 +111,8 @@ const PaymentForm = ({ id, payment }: PaymentFormProps) => {
         formData: submittedValues,
       });
     } else {
-      serverResult = await createPayment1(submittedValues);
+      console.log("Invoking createPayment ");
+      serverResult = await createPayment(submittedValues);
     }
 
     if (serverResult.status === "SUCCESS") {
@@ -187,6 +209,22 @@ const PaymentForm = ({ id, payment }: PaymentFormProps) => {
                     <FormMessage />
                   </FormItem>
                 )}
+              />
+
+              {/* Category Field */}
+              <SelectFormField
+                control={form.control}
+                name="categoryId"
+                label="Category"
+                options={categories}
+              />
+
+              {/* Currency Field */}
+              <SelectFormField
+                control={form.control}
+                name="currencyId"
+                label="Currency"
+                options={currencies}
               />
             </section>
 

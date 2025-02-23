@@ -29,9 +29,12 @@ model User {
   updatedAt DateTime @updatedAt
   // Foreign Key for One-to-One Relation
   userSettings    UserSettings? 
-
   // One-to-Many Relation (User can have multiple payments)
   payments        Payment[]
+
+  //Add indexes on frequently queried fields like email.
+  @@index([email])
+
 }
  
 model Account {
@@ -94,8 +97,8 @@ model Payment {
   amount      Float
   reason      String
   paidAt      DateTime
-  latitude    Float?   // Nullable field for latitude
-  longitude   Float?   // Nullable field for longitude
+  latitude    Float?    // Nullable field for latitude
+  longitude   Float?    // Nullable field for longitude
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   //User Reference
@@ -103,31 +106,41 @@ model Payment {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   //Category Reference
   categoryId String
-  catgeory    PaymentCategory @relation(fields: [categoryId], references: [id])
+  category    PaymentCategory @relation(fields: [categoryId], references: [id])
   //Currency Reference
   currencyId String
   currency Currency @relation(fields: [currencyId], references: [id])
+
+  // Add indexes on frequently queried fields like paidAt, userId, and categoryId.
+  @@index([paidAt])
+  @@index([userId])
+  @@index([categoryId])
 }
 
 
 //Currency Model
 model Currency {
   id String @id @default(cuid())
-  code String @unique // Example: "USD", "EUR", "GBP"
+  code String @unique @db.VarChar(3) // ISO 4217 currency codes are 3 characters // Example: "USD", "EUR", "GBP"
   name String //Example: "United States Dollar"
   symbol String //Example "$"
   //Relations
   payments Payment[]
   userSettings UserSettings[]
+  // Add indexes on frequently queried fields like code.
+  @@index([code])
 }
 
 //PaymentCategory Model
 model PaymentCategory{
   id String @id @default(cuid())
-  name String @unique // Example: "Groceries", "Rent", "Healthcare"
+  name String @unique @db.VarChar(255) // Example: "Groceries", "Rent", "Healthcare"
   //Relations
   payments Payment[]
   userSettings UserSettings[]
+  //Add indexes on frequently queried fields like name.
+  @@index([name])
+
 }
 
 //UserSettings Model

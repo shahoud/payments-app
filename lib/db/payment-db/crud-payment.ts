@@ -14,58 +14,68 @@ type FormState = {
   errors?: Record<string, string[]>;
 };
 
-export const createPayment = async (state: any, formData: FormData) => {
-  const session = await auth();
+// export const createPayment10 = async (state: any, formData: FormData) => {
+//   const session = await auth();
 
-  if (!session)
-    return parseServerActionResponse({
-      error: "Not Signed in",
-      status: "ERROR",
-    });
+//   if (!session)
+//     return parseServerActionResponse({
+//       error: "Not Signed in",
+//       status: "ERROR",
+//     });
 
-  const userId = session?.user?.id;
+//   const userId = session?.user?.id;
 
-  if (!userId) {
-    return parseServerActionResponse({
-      error: "User ID is missing",
-      status: "ERROR",
-    });
-  }
+//   if (!userId) {
+//     return parseServerActionResponse({
+//       error: "User ID is missing",
+//       status: "ERROR",
+//     });
+//   }
 
-  const { amount, reason, paidAt, latitude, longitude } =
-    Object.fromEntries(formData);
+//   const {
+//     amount,
+//     reason,
+//     paidAt,
+//     latitude,
+//     longitude,
+//     categoryId,
+//     currencyId,
+//   } = Object.fromEntries(formData);
 
-  const parsedAmount = parseFloat(amount as string);
-  const parsedPaidAt = new Date(paidAt as string);
-  const parsedLatitude = latitude ? parseFloat(latitude as string) : null;
-  const parsedLongitude = longitude ? parseFloat(longitude as string) : null;
+//   const parsedAmount = parseFloat(amount as string);
+//   const parsedPaidAt = new Date(paidAt as string);
+//   const parsedLatitude = latitude ? parseFloat(latitude as string) : null;
+//   const parsedLongitude = longitude ? parseFloat(longitude as string) : null;
+//   const parsedCategoryId = categoryId.toString();
+//   const parsedCurrencyId = currencyId.toString();
+//   try {
+//     const payment = {
+//       userId,
+//       amount: parsedAmount,
+//       reason: reason as string,
+//       paidAt: parsedPaidAt,
+//       latitude: parsedLatitude,
+//       longitude: parsedLongitude,
+//       createdAt: new Date(),
+//       updatedAt: new Date(),
+//       categoryId: parsedCategoryId,
+//       currencyId: parsedCurrencyId,
+//     };
 
-  try {
-    const payment = {
-      userId,
-      amount: parsedAmount,
-      reason: reason as string,
-      paidAt: parsedPaidAt,
-      latitude: parsedLatitude,
-      longitude: parsedLongitude,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+//     const createdPayment = await prisma.payment.create({ data: payment });
 
-    const createdPayment = await prisma.payment.create({ data: payment });
-
-    return parseServerActionResponse({
-      data: createdPayment,
-      error: "",
-      status: "SUCCESS",
-    });
-  } catch (error) {
-    return parseServerActionResponse({
-      error: "Error creating payment",
-      status: "ERROR",
-    });
-  }
-};
+//     return parseServerActionResponse({
+//       data: createdPayment,
+//       error: "",
+//       status: "SUCCESS",
+//     });
+//   } catch (error) {
+//     return parseServerActionResponse({
+//       error: "Error creating payment",
+//       status: "ERROR",
+//     });
+//   }
+// };
 
 //Get all payments of a user
 export const getPaymentsByUserId = async (id: string, query: string) => {
@@ -153,7 +163,7 @@ export const getPaymentById = async ({ id }: { id: string }) => {
 };
 
 //
-export const createPayment1 = async (formData: PaymentFormDataType) => {
+export const createPayment = async (formData: PaymentFormDataType) => {
   const session = await auth();
 
   if (!session)
@@ -171,7 +181,15 @@ export const createPayment1 = async (formData: PaymentFormDataType) => {
     });
   }
 
-  const { amount, reason, paidAt, latitude, longitude } = formData;
+  const {
+    amount,
+    reason,
+    paidAt,
+    latitude,
+    longitude,
+    categoryId,
+    currencyId,
+  } = formData;
 
   try {
     const payment = {
@@ -181,6 +199,8 @@ export const createPayment1 = async (formData: PaymentFormDataType) => {
       paidAt,
       latitude,
       longitude,
+      categoryId,
+      currencyId,
     };
 
     const createdPayment = await prisma.payment.create({ data: payment });

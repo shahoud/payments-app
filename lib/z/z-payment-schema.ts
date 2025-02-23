@@ -22,6 +22,8 @@ export const paymentZodSchema = z.object({
   ),
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
+  categoryId: z.string(),
+  currencyId: z.string(),
 });
 
 // .min(-90, "Latitude must be between -90 and 90")
