@@ -38,14 +38,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
-import SelectFormField from "@/components/reusable/SelectFormField";
+import SelectFormField from "@/components/reusable/SelectFormField-Sh";
 
 interface PaymentFormProps {
   id?: string;
   payment?: PaymentFormDataType;
+  categories: { id: string; name: string; code: string }[];
+  currencies: { id: string; name: string; code: string }[];
 }
 
-const PaymentForm = ({ id, payment }: PaymentFormProps) => {
+const PaymentForm = ({
+  id,
+  payment,
+  categories,
+  currencies,
+}: PaymentFormProps) => {
   const searchParams = useSearchParams();
   const redirectUrlParam = searchParams?.get("redirect") || "payments";
   const redirectUrl = redirectUrlParam
@@ -65,19 +72,7 @@ const PaymentForm = ({ id, payment }: PaymentFormProps) => {
   const isEditMode = !!payment;
   const router = useRouter();
   const { toast } = useToast();
-  const categories = [
-    { id: "1", name: "Groceries" },
-    { id: "2", name: "Rent" },
-    { id: "3", name: "Vegitables" },
-    { id: "4", name: "Fruits" },
-  ];
 
-  const currencies = [
-    { id: "1", name: "USD" },
-    { id: "2", name: "DER" },
-    { id: "3", name: "SYP" },
-    { id: "4", name: "EUR" },
-  ];
   // Default values for the form
   const defaultValues: z.infer<typeof paymentZodSchema> = {
     amount: payment?.amount || 0,
@@ -85,8 +80,8 @@ const PaymentForm = ({ id, payment }: PaymentFormProps) => {
     paidAt: payment?.paidAt ? new Date(payment.paidAt) : new Date(),
     latitude: payment?.latitude ?? 0,
     longitude: payment?.longitude ?? 0,
-    categoryId: payment?.categoryId || "cm7hm5itt0004ey54twvm8adi",
-    currencyId: payment?.currencyId || "cm7hm5iti0000ey5444qlqqye",
+    categoryId: payment?.categoryId || "",
+    currencyId: payment?.currencyId || "",
   };
 
   // Initialize the form

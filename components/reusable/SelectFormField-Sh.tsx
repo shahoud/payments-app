@@ -24,7 +24,7 @@ interface SelectFormFieldProps<T extends FieldValues> {
   name: Path<T>; // Allows passing any field name dynamically
   label: string; // Label for the select field
   description?: string; // Optional description text
-  options: { id: string; name: string }[]; // Array of selectable items
+  options: { id: string; name: string; code?: string }[]; // Array of selectable items
 }
 
 export default function SelectFormField<T extends FieldValues>({
@@ -41,24 +41,29 @@ export default function SelectFormField<T extends FieldValues>({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={field.onChange}
+            value={field.value || ""}
+            disabled={options.length == 0}
+          >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={`Select ${label}`} />
+                <SelectValue
+                  placeholder={
+                    options.length > 0
+                      ? `Select ${label}`
+                      : "No options to select from"
+                  }
+                />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {options.length > 0 ? (
+              {options.length > 0 &&
                 options.map((option) => (
                   <SelectItem key={option.id} value={option.id}>
-                    {option.name}
+                    {option.name} ({option.code})
                   </SelectItem>
-                ))
-              ) : (
-                <SelectItem value="" disabled>
-                  No options available
-                </SelectItem>
-              )}
+                ))}
             </SelectContent>
           </Select>
           {description && (

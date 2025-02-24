@@ -321,3 +321,27 @@ export const getAnnualPaymentAmount = async (year: number) => {
 
   return totalAmountInYear._sum.amount || 0;
 };
+
+//Get all Categories - {id , name} of categories
+export const getAllCategoryNameAndIDs = async () => {
+  const categoriesIdAndName = await prisma.paymentCategory.findMany({
+    select: {
+      id: true,
+      name: true,
+      code: true,
+    },
+  });
+  return categoriesIdAndName;
+};
+
+//Get all Currencies - {id , name} of categories
+export const getAllCurrencyNameAndIDs = async () => {
+  const currenciesIdAndName = await prisma.currency.findMany({
+    select: {
+      id: true,
+      name: true,
+      code: true,
+    },
+  });
+  return currenciesIdAndName;
+};

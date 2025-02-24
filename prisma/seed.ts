@@ -20,11 +20,11 @@ async function main() {
 
   // Seed Payment Categories
   const categories = [
-    { name: "Groceries" },
-    { name: "Rent" },
-    { name: "Healthcare" },
-    { name: "Transportation" },
-    { name: "Entertainment" },
+    { name: "Groceries", code: "GROC" },
+    { name: "Rent", code: "RENT" },
+    { name: "Healthcare", code: "HLTH" },
+    { name: "Transportation", code: "TRNS" },
+    { name: "Entertainment", code: "ETRN" },
   ];
 
   for (const category of categories) {

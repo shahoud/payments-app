@@ -121,8 +121,8 @@ model Payment {
 //Currency Model
 model Currency {
   id String @id @default(cuid())
-  code String @unique @db.VarChar(3) // ISO 4217 currency codes are 3 characters // Example: "USD", "EUR", "GBP"
   name String //Example: "United States Dollar"
+  code String @unique @db.VarChar(3) // ISO 4217 currency codes are 3 characters // Example: "USD", "EUR", "GBP"
   symbol String //Example "$"
   //Relations
   payments Payment[]
@@ -135,6 +135,7 @@ model Currency {
 model PaymentCategory{
   id String @id @default(cuid())
   name String @unique @db.VarChar(255) // Example: "Groceries", "Rent", "Healthcare"
+  code String @unique @db.VarChar(4)
   //Relations
   payments Payment[]
   userSettings UserSettings[]
