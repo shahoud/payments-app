@@ -9,7 +9,6 @@ export default async function Page() {
       <div className="col-span-2 ">
         <AnnualPaidToIncome />
       </div>
-
       <div className="col-span-2 ">
         <MonthlyPaidBarChart />
       </div>
