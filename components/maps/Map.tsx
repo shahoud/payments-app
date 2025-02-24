@@ -76,7 +76,7 @@ const PaymentLocationPicker = ({
         {markerPosition && <Marker position={markerPosition} />}
       </MapContainer>
     );
-  }, [mapCenter, markerPosition]);
+  }, [mapCenter, markerPosition, MapClickHandler]);
 
   return (
     <div style={{ position: "relative" }}>
