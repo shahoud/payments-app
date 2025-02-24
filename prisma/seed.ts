@@ -1,4 +1,3 @@
-import { Currency } from "./../node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/.prisma/client/index.d";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
