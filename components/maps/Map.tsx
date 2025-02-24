@@ -42,21 +42,20 @@ const PaymentLocationPicker = ({
     }
   }, [location, isLoading, error]);
 
-  // Handle map clicks and place a marker
-  const MapClickHandler = () => {
-    useMapEvents({
-      click(e) {
-        const { lat, lng } = e.latlng;
-        setMarkerPosition([lat, lng]); // Update marker position
-        onMarkerPositionChange([lat, lng]); // Pass position to parent
-      },
-    });
-
-    return null;
-  };
-
   // Memoize the MapContainer
   const mapContent = useMemo(() => {
+    // Handle map clicks and place a marker
+    const MapClickHandler = () => {
+      useMapEvents({
+        click(e) {
+          const { lat, lng } = e.latlng;
+          setMarkerPosition([lat, lng]); // Update marker position
+          onMarkerPositionChange([lat, lng]); // Pass position to parent
+        },
+      });
+
+      return null;
+    };
     if (!mapCenter) {
       return null; // Avoid rendering the map until the center is determined
     }
@@ -76,7 +75,7 @@ const PaymentLocationPicker = ({
         {markerPosition && <Marker position={markerPosition} />}
       </MapContainer>
     );
-  }, [mapCenter, markerPosition, MapClickHandler]);
+  }, [mapCenter, markerPosition]);
 
   return (
     <div style={{ position: "relative" }}>
