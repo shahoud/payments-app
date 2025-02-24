@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <div className="grid grid-cols-8 gap-3 p-10">
       <div className="col-span-2 ">
-        <Skeleton className=" h-[300px]" />
+        <Skeleton className=" h-[300px] w-[300px]" />
       </div>
       <div className="col-span-2 ">
         <Skeleton className=" h-[300px]" />
