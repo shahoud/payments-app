@@ -26,7 +26,7 @@ const PaymentLocationPicker = ({
   const defaultMapCenter: LatLngTuple = [33.5138, 36.2765];
 
   // Call to useLocation hook
-  const { location, isLoading, error, getLocation } = useLocation();
+  const { location, isLoading, error } = useLocation();
 
   // State for marker position and map center
   const [markerPosition, setMarkerPosition] = useState<LatLngTuple | null>(

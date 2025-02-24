@@ -31,13 +31,13 @@ const PaymentLocationPicker = ({ setValue, lat, lng }: MapProps) => {
   );
   const currentZoom = lat !== 0 && lng !== 0 ? 18 : 1;
 
-  const { location, isLoading, error, getLocation } = useLocation();
+  const { location, isLoading, error } = useLocation();
 
   useEffect(() => {
     if (!error && !isLoading && !!location) {
       setMarkerPosition(location);
     }
-  }, [isLoading]);
+  }, [isLoading, error, location]);
 
   const MapClickHandler = () => {
     useMapEvents({
