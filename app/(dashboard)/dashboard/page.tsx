@@ -18,7 +18,6 @@ export default async function Page() {
       <div className="col-span-2 ">
         <AnnualTotalPaidCard />
       </div>
-
       <div className="col-span-8 ">
         <DailyPaidChart />
       </div>
