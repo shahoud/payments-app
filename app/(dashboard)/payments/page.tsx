@@ -1,11 +1,7 @@
 import PaymentCard from "@/components/dashboard-ui/payments/card-view/PaymentCard";
-import {
-  getFilteredSortedPaymentsByUserId,
-  getPaymentsByUserId,
-} from "@/lib/db/payment-db/crud-payment";
+import { getFilteredSortedPaymentsByUserId } from "@/lib/db/payment-db/crud-payment";
 import { auth } from "@/auth";
 import { Payment, User } from "@prisma/client";
-import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { columns } from "@/components/dashboard-ui/payments/table-view/columns";

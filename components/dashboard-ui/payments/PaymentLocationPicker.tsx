@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMap,
-  useMapEvents,
-} from "react-leaflet";
-import { LatLngExpression, LatLngTuple } from "leaflet";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import { LatLngTuple } from "leaflet";
 import { useState, useEffect } from "react";
 import L from "leaflet";
 import { UseFormSetValue } from "react-hook-form";

@@ -7,12 +7,12 @@ import MonthlyPaidBarChart from "@/components/dashboard-ui/home/cards/MonthlyPai
 
 export default async function Page() {
   const totalPaidAmountIn2025 = await getAnnualPaymentAmount(2025);
-  const formatedTotal = formatCurrency(
-    totalPaidAmountIn2025,
-    "en-US",
-    "SYP",
-    0
-  );
+  // const formatedTotal = formatCurrency(
+  //   totalPaidAmountIn2025,
+  //   "en-US",
+  //   "SYP",
+  //   0
+  // );
 
   return (
     <div className="grid grid-cols-8 gap-3 p-10">

@@ -3,78 +3,13 @@ import { auth } from "@/auth";
 import { parseServerActionResponse } from "@/lib/utils";
 import prisma from "@/prisma/client";
 import { PaymentFormDataType } from "@/types/paymentForm.types";
-import { Payment } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { contains } from "validator";
 
-type FormState = {
-  success: boolean;
-  fields?: Record<string, string>;
-  errors?: Record<string, string[]>;
-};
-
-// export const createPayment10 = async (state: any, formData: FormData) => {
-//   const session = await auth();
-
-//   if (!session)
-//     return parseServerActionResponse({
-//       error: "Not Signed in",
-//       status: "ERROR",
-//     });
-
-//   const userId = session?.user?.id;
-
-//   if (!userId) {
-//     return parseServerActionResponse({
-//       error: "User ID is missing",
-//       status: "ERROR",
-//     });
-//   }
-
-//   const {
-//     amount,
-//     reason,
-//     paidAt,
-//     latitude,
-//     longitude,
-//     categoryId,
-//     currencyId,
-//   } = Object.fromEntries(formData);
-
-//   const parsedAmount = parseFloat(amount as string);
-//   const parsedPaidAt = new Date(paidAt as string);
-//   const parsedLatitude = latitude ? parseFloat(latitude as string) : null;
-//   const parsedLongitude = longitude ? parseFloat(longitude as string) : null;
-//   const parsedCategoryId = categoryId.toString();
-//   const parsedCurrencyId = currencyId.toString();
-//   try {
-//     const payment = {
-//       userId,
-//       amount: parsedAmount,
-//       reason: reason as string,
-//       paidAt: parsedPaidAt,
-//       latitude: parsedLatitude,
-//       longitude: parsedLongitude,
-//       createdAt: new Date(),
-//       updatedAt: new Date(),
-//       categoryId: parsedCategoryId,
-//       currencyId: parsedCurrencyId,
-//     };
-
-//     const createdPayment = await prisma.payment.create({ data: payment });
-
-//     return parseServerActionResponse({
-//       data: createdPayment,
-//       error: "",
-//       status: "SUCCESS",
-//     });
-//   } catch (error) {
-//     return parseServerActionResponse({
-//       error: "Error creating payment",
-//       status: "ERROR",
-//     });
-//   }
+// type FormState = {
+//   success: boolean;
+//   fields?: Record<string, string>;
+//   errors?: Record<string, string[]>;
 // };
 
 //Get all payments of a user
@@ -286,7 +221,7 @@ export const updatePayment = async ({
   };
 
   try {
-    const updatedPayment = await prisma.payment.update({
+    await prisma.payment.update({
       where: { id },
       data: payment,
     });
