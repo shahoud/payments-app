@@ -6,12 +6,18 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getPaymentById } from "@/lib/db/payment-db/crud-payment";
+import {
+  getAllCategoryNameAndIDs,
+  getAllCurrencyNameAndIDs,
+  getPaymentById,
+} from "@/lib/db/payment-db/crud-payment";
 import { PaymentFormDataType } from "@/types/paymentForm.types";
 import { Slash } from "lucide-react";
 import Link from "next/link";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const categories = await getAllCategoryNameAndIDs();
+  const currencies = await getAllCurrencyNameAndIDs();
   const params = await props.params;
   const id = params.id;
   // Fetch payment data and pass it to the PaymentForm component for editing.
@@ -26,6 +32,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     paidAt: data.paidAt,
     latitude: data.latitude,
     longitude: data.longitude,
+    categoryId: data.categoryId,
+    currencyId: data.currencyId,
   };
   return (
     <main className="w-full">
@@ -49,7 +57,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </BreadcrumbList>
       </Breadcrumb>
       <section className="w-full">
-        <PaymentForm id={id} payment={paymentData} />
+        <PaymentForm
+          id={id}
+          payment={paymentData}
+          categories={categories}
+          currencies={currencies}
+        />
       </section>
     </main>
   );
