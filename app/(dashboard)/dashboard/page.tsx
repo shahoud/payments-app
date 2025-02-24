@@ -1,7 +1,6 @@
 import AnnualPaidToIncome from "@/components/dashboard-ui/home/cards/PaidRatioDauntChart";
 import AnnualTotalPaidCard from "@/components/dashboard-ui/home/cards/AnnualPaidCard";
 import DailyPaidChart from "@/components/dashboard-ui/home/cards/DailyPaidLineChart";
-import { getAnnualPaymentAmount } from "@/lib/db/payment-db/crud-payment";
 import MonthlyPaidBarChart from "@/components/dashboard-ui/home/cards/MonthlyPaidBarChart";
 
 export default async function Page() {
