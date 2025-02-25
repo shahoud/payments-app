@@ -76,3 +76,5 @@
 //     </div>
 //   );
 // }
+https://payments-app-seven.vercel.app/api/auth/callback/google
+http://localhost:3000/api/auth/callback/google
